@@ -42,7 +42,7 @@
 		};
 
 		$scope.sendLike = function (user) {
-			console.log(user);
+			// console.log(user);
 			const id = lodash.get(user, 'socketid');
 			const likeObj = {
 				from: nickname,

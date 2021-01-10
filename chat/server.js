@@ -33,7 +33,7 @@ io.on('connection', function (socket) {
 	});
 	// send a 'like' to the user of my choice
 	socket.on('send-like', function (data) {
-		console.log(data);
+		// console.log(data);
 		socket.broadcast.to(data.like).emit('user-liked', data);
 	});
 	// disconnect from socket
