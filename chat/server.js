@@ -36,6 +36,13 @@ io.on('connection', function (socket) {
 		console.log(data);
 		socket.broadcast.to(data.like).emit('user-liked', data);
 	});
+	// disconnect from socket
+	socket.on('disconnect', function () {
+		users = users.filter(function (item) {
+			return item.nickname !== socket.nickname;
+		});
+		io.emit('all-users', users);
+	});
 });
 
 server.listen(port, function () {

@@ -16,7 +16,7 @@
 		socket.emit('get-users');
 
 		socket.on('all-users', function (data) {
-			console.log(data);
+			// console.log(data);
 			$scope.users = data.filter(function (item) {
 				return item.nickname !== nickname;
 			});
@@ -27,7 +27,7 @@
 		});
 
 		socket.on('user-liked', function (data) {
-			console.log(data);
+			// console.log(data);
 			$scope.likes.push(data.from);
 		});
 
