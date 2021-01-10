@@ -5,12 +5,21 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const port = 8080;
-const users = [];
+let users = [];
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', function (socket) {
 	console.log('new connection made');
+	// join private room
+	socket.on('join-private', function (data) {
+		socket.join('private');
+		console.log(data.nickname + ' joined private');
+	});
+	socket.on('private-chat', function (data) {
+		socket.broadcast.to('private').emit('show-message', data.message);
+	});
+	// show all users when first logged on
 	socket.on('get-users', function () {
 		socket.emit('all-users', users);
 	});

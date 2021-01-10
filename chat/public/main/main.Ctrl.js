@@ -13,6 +13,23 @@
 		$scope.mynickname = $localStorage.nickname;
 		const nickname = $scope.mynickname;
 
+		$scope.joinPrivate = function () {
+			socket.emit('join-private', {
+				nickname: nickname,
+			});
+			console.log('Private room joined!');
+		};
+
+		$scope.groupPm = function () {
+			socket.emit('private-chat', {
+				message: 'Hello everybody!',
+			});
+		};
+
+		socket.on('show-message', function (data) {
+			console.log(data);
+		});
+
 		socket.emit('get-users');
 
 		socket.on('all-users', function (data) {
