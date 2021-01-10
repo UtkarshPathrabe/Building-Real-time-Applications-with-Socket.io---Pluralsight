@@ -9,6 +9,7 @@
 		$scope.message = '';
 		$scope.messages = [];
 		$scope.users = [];
+		$scope.likes = [];
 		$scope.mynickname = $localStorage.nickname;
 		const nickname = $scope.mynickname;
 
@@ -25,6 +26,11 @@
 			$scope.messages.push(data);
 		});
 
+		socket.on('user-liked', function (data) {
+			console.log(data);
+			$scope.likes.push(data.from);
+		});
+
 		$scope.sendMessage = function (data) {
 			const newMessage = {
 				message: $scope.message,
@@ -33,6 +39,16 @@
 			socket.emit('send-message', newMessage);
 			$scope.message = '';
 			$scope.messages.push(newMessage);
+		};
+
+		$scope.sendLike = function (user) {
+			console.log(user);
+			const id = lodash.get(user, 'socketid');
+			const likeObj = {
+				from: nickname,
+				like: id,
+			};
+			socket.emit('send-like', likeObj);
 		};
 	}
 })();

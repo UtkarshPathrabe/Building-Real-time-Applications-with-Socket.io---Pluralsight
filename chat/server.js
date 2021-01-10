@@ -16,8 +16,8 @@ io.on('connection', function (socket) {
 	});
 	// when new user joins
 	socket.on('join', function (data) {
-		console.log(data); // nickname
-		console.log(users);
+		// console.log(data); // nickname
+		// console.log(users);
 		socket.nickname = data.nickname;
 		users[socket.nickname] = socket;
 		const userObj = {
@@ -30,6 +30,11 @@ io.on('connection', function (socket) {
 	// broadcast the message
 	socket.on('send-message', function (data) {
 		socket.broadcast.emit('message-received', data);
+	});
+	// send a 'like' to the user of my choice
+	socket.on('send-like', function (data) {
+		console.log(data);
+		socket.broadcast.to(data.like).emit('user-liked', data);
 	});
 });
 
